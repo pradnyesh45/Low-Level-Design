@@ -20,23 +20,22 @@ public class Main {
         Card card = new Card("1234567890123456", "1234", false, Card.CardType.DEBIT);
         Account account = new Account("ACC001", 5000.0);
 
-        ATMService atmService = new ATMServiceImpl(atm);
+        ATMService atmService = new ATMServiceImpl(atm, card, account);
         ATMInterface atmInterface = new ATMInterfaceImpl(atmService);
 
-        runATMSimulation(atmInterface, atmService, card, account);
+        runATMSimulation(atmInterface, atmService);
     }
 
-    private static void runATMSimulation(ATMInterface atmInterface, ATMService atmService, Card card, Account account) {
-        Scanner scanner = new Scanner(System.in);
+    private static void runATMSimulation(ATMInterface atmInterface, ATMService atmService) {
 
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
             atmInterface.showWelcomeScreen();
 
             System.out.print("Please Enter to insert card...");
             scanner.nextLine();
             atmInterface.insertCard();
 
-            atmService.startSession(card, account);
+            atmService.startSession();
 
             System.out.println("Enter PIN: ");
             String pin = scanner.nextLine();
@@ -89,8 +88,6 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 }

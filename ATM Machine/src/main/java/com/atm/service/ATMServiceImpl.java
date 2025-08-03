@@ -10,8 +10,10 @@ public class ATMServiceImpl implements ATMService{
     private Account currentAccount;
     private boolean sessionActive;
 
-    public ATMServiceImpl(ATM atm) {
+    public ATMServiceImpl(ATM atm, Card card, Account account) {
         this.atm = atm;
+        this.currentCard = card;
+        this.currentAccount = account;
         this.sessionActive = false;
     }
 
@@ -21,8 +23,6 @@ public class ATMServiceImpl implements ATMService{
                 currentCard.getCardNumber().equals(cardNumber) &&
                 !currentCard.isBlocked();
     }
-
-
 
     @Override
     public boolean validatePin(String pin){
@@ -57,9 +57,7 @@ public class ATMServiceImpl implements ATMService{
     }
 
     @Override
-    public void startSession(Card card, Account account) {
-        this.currentCard = card;
-        this.currentAccount = account;
+    public void startSession() {
         this.sessionActive = true;
         atm.setState(ATM.ATMState.CARD_INSERTED);
     }

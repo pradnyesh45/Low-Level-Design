@@ -9,7 +9,7 @@ public interface ATMService {
     double checkBalance();
     boolean withdraw(double amount);
     boolean deposit(double amount);
-    void startSession(Card card, Account account);
+    void startSession();
     void endSession();
     boolean isSessionActive();
 }
